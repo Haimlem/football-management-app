@@ -36,9 +36,15 @@ public class MatchServiceImpl implements MatchService {
     }
 
     @Override
-    public MatchDTO updateMatch(Long id, MatchDTO matchDTO) {
-        Match match = mapper.fromMatchDTO(matchDTO);
-        match.setId(id);
+    public MatchDTO updateMatchScore(Long id, MatchDTO matchDTO) {
+        Optional<Match> matchOpt = matchRepository.findById(id);
+        if (matchOpt.isEmpty()) {
+            throw new IllegalArgumentException("Match not found");
+        }
+
+        Match match = matchOpt.get();
+        match.setHomeTeamGoals(matchDTO.getHomeTeamGoals());
+        match.setAwayTeamGoals(matchDTO.getAwayTeamGoals());
         match = matchRepository.save(match);
         return mapper.toMatchDTO(match);
     }

@@ -148,8 +148,8 @@ public class Mapper {
         matchDTO.setId(match.getId());
         matchDTO.setHomeTeamId(match.getHomeTeam() != null ? match.getHomeTeam().getId() : null);
         matchDTO.setAwayTeamId(match.getAwayTeam() != null ? match.getAwayTeam().getId() : null);
-//        matchDTO.setHomeTeamGoals(match.getHomeTeamGoals());
-//        matchDTO.setAwayTeamGoals(match.getAwayTeamGoals());
+        matchDTO.setHomeTeamGoals(match.getHomeTeamGoals());
+        matchDTO.setAwayTeamGoals(match.getAwayTeamGoals());
         matchDTO.setRoundId(match.getRound() != null ? match.getRound().getRoundNumber() : null);
         return matchDTO;
     }
@@ -165,8 +165,8 @@ public class Mapper {
             Team awayTeam = teamRepository.findById(matchDTO.getAwayTeamId()).orElse(null);
             match.setAwayTeam(awayTeam);
         }
-//        match.setHomeTeamGoals(matchDTO.getHomeTeamGoals());
-//        match.setAwayTeamGoals(matchDTO.getAwayTeamGoals());
+        match.setHomeTeamGoals(matchDTO.getHomeTeamGoals());
+        match.setAwayTeamGoals(matchDTO.getAwayTeamGoals());
         if (matchDTO.getRoundId() != null) {
            Round currentRound = roundRepository.findById(matchDTO.getRoundId()).orElse(null);
            match.setRound(currentRound);

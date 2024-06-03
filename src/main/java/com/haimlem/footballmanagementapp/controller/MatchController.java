@@ -32,15 +32,15 @@ public class MatchController {
         return ResponseEntity.ok(matches);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<MatchDTO> updateMatch(@PathVariable Long id, @RequestBody MatchDTO matchDTO) {
-        MatchDTO updatedMatch = matchService.updateMatch(id, matchDTO);
-        return ResponseEntity.ok(updatedMatch);
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMatch(@PathVariable Long id) {
         matchService.deleteMatch(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/score")
+    public ResponseEntity<MatchDTO> updateMatchScore(@PathVariable Long id, @RequestBody MatchDTO matchDTO) {
+        MatchDTO updatedMatch = matchService.updateMatchScore(id, matchDTO);
+        return ResponseEntity.ok(updatedMatch);
     }
 }

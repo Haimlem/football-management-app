@@ -8,7 +8,7 @@ import java.util.Optional;
 public interface MatchService {
     Optional<MatchDTO> getMatchById(Long id);
     List<MatchDTO> getAllMatches();
-    MatchDTO updateMatch(Long id, MatchDTO matchDTO);
+    MatchDTO updateMatchScore(Long id, MatchDTO matchDTO);
     void deleteMatch(Long id);
 
 }
