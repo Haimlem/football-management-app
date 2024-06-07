@@ -216,7 +216,3 @@ The repository layer includes interfaces that extend JpaRepository for CRUD oper
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
-
-```
-This README file provides an overview of your project, details on installation and usage, and documentation for your API endpoints. Adjust the GitHub repository URL and any other specific details as necessary.
-```
