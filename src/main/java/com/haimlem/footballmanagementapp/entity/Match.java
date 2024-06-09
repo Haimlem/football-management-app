@@ -17,12 +17,10 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "match_id_seq")
     private Long id;
 
-//    @OneToOne
     @ManyToOne
     @JoinColumn(name = "home_team_id")
     private Team homeTeam;
 
-//    @OneToOne
     @ManyToOne
     @JoinColumn(name = "away_team_id")
     private Team awayTeam;
@@ -33,4 +31,8 @@ public class Match {
     @ManyToOne
     @JoinColumn(name = "round_number")
     private Round round;
+
+    @ManyToOne
+    @JoinColumn(name = "league_id")
+    private League league;
 }

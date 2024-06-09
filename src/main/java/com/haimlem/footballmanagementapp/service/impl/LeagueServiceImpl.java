@@ -183,6 +183,9 @@ public class LeagueServiceImpl implements LeagueService {
         match.setHomeTeam(homeTeam);
         match.setAwayTeam(awayTeam);
         match.setRound(round);
+        match.setLeague(round.getLeague()); // Ensure the match is associated with the league
+        match.setHomeTeamGoals(0); // Initialize goals to 0
+        match.setAwayTeamGoals(0); // Initialize goals to 0
         return match;
     }
 }

@@ -29,6 +29,9 @@ public class Mapper {
     @Autowired
     private RoundRepository roundRepository;
 
+//    @Autowired
+//    private LeagueTableRepository leagueTableRepository;
+
     public PlayerDTO toPlayerDTO(Player player) {
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setId(player.getId());
@@ -192,5 +195,47 @@ public class Mapper {
             round.setLeague(league);
         }
         return round;
+    }
+
+    public LeagueTableDTO toLeagueTableDTO(LeagueTable leagueTable) {
+        LeagueTableDTO leagueTableDTO = new LeagueTableDTO();
+        leagueTableDTO.setId(leagueTable.getId());
+        leagueTableDTO.setLeagueId(leagueTable.getLeague() != null ? leagueTable.getLeague().getId() : null);
+        leagueTableDTO.setTeamId(leagueTable.getTeam() != null ? leagueTable.getTeam().getId() : null);
+        leagueTableDTO.setPlayed(leagueTable.getPlayed());
+        leagueTableDTO.setWon(leagueTable.getWon());
+        leagueTableDTO.setDrawn(leagueTable.getDrawn());
+        leagueTableDTO.setLost(leagueTable.getLost());
+        leagueTableDTO.setGoalsFor(leagueTable.getGoalsFor());
+        leagueTableDTO.setGoalsAgainst(leagueTable.getGoalsAgainst());
+        leagueTableDTO.setGoalDifference(leagueTable.getGoalDifference());
+        leagueTableDTO.setPoints(leagueTable.getPoints());
+        return leagueTableDTO;
+    }
+
+    public List<LeagueTableDTO> toLeagueTableDTOList(List<LeagueTable> leagueTables) {
+        return leagueTables.stream().map(this::toLeagueTableDTO).collect(Collectors.toList());
+    }
+
+    public LeagueTable fromLeagueTableEntryDTO(LeagueTableDTO leagueTableDTO) {
+        LeagueTable leagueTable = new LeagueTable();
+        leagueTable.setId(leagueTableDTO.getId());
+        if (leagueTableDTO.getLeagueId() != null) {
+            League league = leagueRepository.findById(leagueTableDTO.getLeagueId()).orElse(null);
+            leagueTable.setLeague(league);
+        }
+        if (leagueTableDTO.getTeamId() != null) {
+            Team team = teamRepository.findById(leagueTableDTO.getTeamId()).orElse(null);
+            leagueTable.setTeam(team);
+        }
+        leagueTable.setPlayed(leagueTableDTO.getPlayed());
+        leagueTable.setWon(leagueTableDTO.getWon());
+        leagueTable.setDrawn(leagueTableDTO.getDrawn());
+        leagueTable.setLost(leagueTableDTO.getLost());
+        leagueTable.setGoalsFor(leagueTableDTO.getGoalsFor());
+        leagueTable.setGoalsAgainst(leagueTableDTO.getGoalsAgainst());
+        leagueTable.setGoalDifference(leagueTableDTO.getGoalDifference());
+        leagueTable.setPoints(leagueTableDTO.getPoints());
+        return leagueTable;
     }
 }
