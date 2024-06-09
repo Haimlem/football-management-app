@@ -1,6 +1,6 @@
 # Football Management Application
 
-This project is a Football Management Application built using Java Spring Boot. It allows users to manage football leagues, teams, players, and matches. Users can also randomize and generate match schedules for leagues following a round-robin tournament format.
+This project is a Football Management Application built using Java Spring Boot. It allows users to manage football leagues, teams, players, rounds, matches, and league tables. Users can randomize and generate match schedules for leagues following a round-robin tournament format. The scores are also updated after each match and the league table are also updated accordingly.
 
 ## Table of Contents
 
@@ -16,10 +16,11 @@ This project is a Football Management Application built using Java Spring Boot. 
 
 ## Features
 
-- Manage Leagues, Teams, and Players
+- Manage Leagues, Teams, Players, Rounds, Matches and League Table
 - Record match scores
 - Generate and randomize match schedules for leagues
-- Retrieve detailed information on leagues, teams, players, and matches
+- Update league table after each match
+- Retrieve detailed information on leagues, teams, players, rounds, matches and league tables
 
 ## Prerequisites
 
@@ -41,12 +42,12 @@ This project is a Football Management Application built using Java Spring Boot. 
 
   Update the application.properties file with your PostgreSQL database configuration.
 
-  ```
-    spring.datasource.url=jdbc:postgresql://localhost:5432/football_db
-    spring.datasource.username=your-username
-    spring.datasource.password=your-password
-    spring.jpa.hibernate.ddl-auto=update
-  ```
+   ```
+   spring.datasource.url=jdbc:postgresql://localhost:5432/football_db
+   spring.datasource.username=your-username
+   spring.datasource.password=your-password
+   spring.jpa.hibernate.ddl-auto=update
+   ```
 
 3. **Build the application:**
    
@@ -61,7 +62,7 @@ This project is a Football Management Application built using Java Spring Boot. 
     ```
 
 ## Usage
-Once the application is running, you can use tools like Postman or cURL to interact with the API endpoints.
+Once the application runs, you can use tools like Postman or cURL to interact with the API endpoints.
 
 ## API Endpoints
 
@@ -159,6 +160,13 @@ Update match score:
 PUT /matches/{id}/score
 ```
 
+LeagueTables
+Get all league tables
+
+```
+GET /league-table{leagueId}
+```
+
 ## Entities
 
 Player
@@ -167,8 +175,8 @@ Player
 + age (int)
 + position (String)
 + shirtNo (int)
++ salary (double)
 + currentTeam (Team)
-+ currentSalary (double)
 
 Team
 + id (Long)
@@ -182,6 +190,7 @@ League
 + name (String)
 + country (String)
 + teams (List<Team>)
++ rounds (List<Round>)
 
 Match
 + id (Long)
@@ -190,20 +199,34 @@ Match
 + homeTeamGoals (int)
 + awayTeamGoals (int)
 + round (Round)
++ league (League)
 
 Round
 + roundNumber (int)
 + league (League)
 + matches (List<Match>)
 
+LeagueTable
++ id (Long)
++ league (League)
++ team (Team)
++ played (int)
++ won (int)
++ lost (int)
++ goalsFor (int)
++ goalsAgainst (int)
++ goalDifference (int)
++ points (int)
+
 ## Service Layer
 The service layer is divided into interfaces and their implementations:
 
-+ LeagueService: Manages leagues and generate rounds and matches
++ LeagueService: Manages leagues and generates rounds and matches
 + TeamService: Manages teams.
 + PlayerService: Manages players.
 + MatchService: Manages matches and updates scores.
 + RoundService: Manage rounds
++ LeagueTableSercice: Mangage league tables and update tables based on match results
 
 ## Repository Layer
 The repository layer includes interfaces that extend JpaRepository for CRUD operations:
@@ -213,6 +236,7 @@ The repository layer includes interfaces that extend JpaRepository for CRUD oper
 + PlayerRepository
 + MatchRepository
 + RoundRepository
++ LeagueTableRepository
 
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
