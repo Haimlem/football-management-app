@@ -31,9 +31,4 @@ public class LeagueTable {
     private int goalsAgainst;
     private int goalDifference;
     private int points;
-
-    public LeagueTable setLeague(League league) {
-        this.league = league;
-        return this;
-    }
 }

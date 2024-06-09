@@ -33,7 +33,4 @@ public class Team {
 
     @OneToMany(mappedBy = "awayTeam", cascade = CascadeType.ALL)
     private List<Match> awayMatches;
-
-    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
-    private List<LeagueTable> entries;
 }

@@ -11,49 +11,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class LeagueTableServiceImpl implements LeagueTableService {
 
     private final LeagueTableRepository leagueTableRepository;
-    private final MatchRepository matchRepository;
-    private final TeamRepository teamRepository;
     private final Mapper mapper;
 
     @Autowired
-    public LeagueTableServiceImpl(LeagueTableRepository leagueTableRepository, MatchRepository matchRepository, TeamRepository teamRepository, Mapper mapper) {
+    public LeagueTableServiceImpl(LeagueTableRepository leagueTableRepository, Mapper mapper) {
         this.leagueTableRepository = leagueTableRepository;
-        this.matchRepository = matchRepository;
-        this.teamRepository = teamRepository;
         this.mapper = mapper;
     }
 
     @Override
     public void updateLeagueTable(Match match) {
-
         League league = match.getLeague();
-
         Team homeTeam = match.getHomeTeam();
-
         Team awayTeam = match.getAwayTeam();
-
         int homeGoals = match.getHomeTeamGoals();
-
         int awayGoals = match.getAwayTeamGoals();
 
         LeagueTable homeLeagueTable = leagueTableRepository.findByLeagueAndTeam(league, homeTeam);
         LeagueTable awayLeagueTable = leagueTableRepository.findByLeagueAndTeam(league, awayTeam);
 
         if (homeLeagueTable == null) {
-            homeLeagueTable = new LeagueTable();
-            homeLeagueTable.setLeague(league);
-            homeLeagueTable.setTeam(homeTeam);
+            homeLeagueTable = createNewLeagueTable(league, homeTeam);
         }
 
         if (awayLeagueTable == null) {
-            awayLeagueTable = new LeagueTable();
-            awayLeagueTable.setLeague(league);
-            awayLeagueTable.setTeam(awayTeam);
+            awayLeagueTable = createNewLeagueTable(league, awayTeam);
         }
 
         updateTeamStats(homeLeagueTable, homeGoals, awayGoals);
@@ -63,6 +51,12 @@ public class LeagueTableServiceImpl implements LeagueTableService {
         leagueTableRepository.save(awayLeagueTable);
     }
 
+    private LeagueTable createNewLeagueTable(League league, Team team) {
+        LeagueTable leagueTable = new LeagueTable();
+        leagueTable.setLeague(league);
+        leagueTable.setTeam(team);
+        return leagueTable;
+    }
 
     private void updateTeamStats(LeagueTable leagueTable, int goalsFor, int goalsAgainst) {
         leagueTable.setPlayed(leagueTable.getPlayed() + 1);
@@ -84,9 +78,17 @@ public class LeagueTableServiceImpl implements LeagueTableService {
     @Override
     public List<LeagueTableDTO> getLeagueTable(Optional<League> league) {
         List<LeagueTable> leagueTables = leagueTableRepository.findByLeague(league);
-        if (leagueTables != null) {
-            return mapper.toLeagueTableDTOList(leagueTables);
+
+        if (leagueTables == null || leagueTables.isEmpty()) {
+            return Collections.emptyList();
         }
-        return null;
+
+        return leagueTables.stream()
+                .sorted(Comparator.comparing(LeagueTable::getPoints, Comparator.reverseOrder())
+                        .thenComparing(LeagueTable::getGoalDifference, Comparator.reverseOrder())
+                        .thenComparing(LeagueTable::getGoalsFor, Comparator.reverseOrder())
+                        .thenComparing(leagueTable -> leagueTable.getTeam().getName()))
+                .map(mapper::toLeagueTableDTO)
+                .collect(Collectors.toList());
     }
 }
