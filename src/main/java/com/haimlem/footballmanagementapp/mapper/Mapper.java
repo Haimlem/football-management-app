@@ -29,9 +29,6 @@ public class Mapper {
     @Autowired
     private RoundRepository roundRepository;
 
-//    @Autowired
-//    private LeagueTableRepository leagueTableRepository;
-
     public PlayerDTO toPlayerDTO(Player player) {
         PlayerDTO playerDTO = new PlayerDTO();
         playerDTO.setId(player.getId());

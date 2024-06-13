@@ -1,20 +1,13 @@
 package com.haimlem.footballmanagementapp.service.impl;
 
 import com.haimlem.footballmanagementapp.dto.RoundDTO;
-import com.haimlem.footballmanagementapp.entity.League;
-import com.haimlem.footballmanagementapp.entity.Match;
 import com.haimlem.footballmanagementapp.entity.Round;
-import com.haimlem.footballmanagementapp.entity.Team;
 import com.haimlem.footballmanagementapp.mapper.Mapper;
-import com.haimlem.footballmanagementapp.repository.LeagueRepository;
-import com.haimlem.footballmanagementapp.repository.MatchRepository;
 import com.haimlem.footballmanagementapp.repository.RoundRepository;
-import com.haimlem.footballmanagementapp.repository.TeamRepository;
 import com.haimlem.footballmanagementapp.service.RoundService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

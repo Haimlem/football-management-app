@@ -11,10 +11,8 @@ import com.haimlem.footballmanagementapp.repository.MatchRepository;
 import com.haimlem.footballmanagementapp.repository.RoundRepository;
 import com.haimlem.footballmanagementapp.repository.TeamRepository;
 import com.haimlem.footballmanagementapp.service.LeagueService;
-import com.haimlem.footballmanagementapp.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;

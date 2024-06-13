@@ -4,8 +4,6 @@ import com.haimlem.footballmanagementapp.dto.LeagueTableDTO;
 import com.haimlem.footballmanagementapp.entity.*;
 import com.haimlem.footballmanagementapp.mapper.Mapper;
 import com.haimlem.footballmanagementapp.repository.LeagueTableRepository;
-import com.haimlem.footballmanagementapp.repository.MatchRepository;
-import com.haimlem.footballmanagementapp.repository.TeamRepository;
 import com.haimlem.footballmanagementapp.service.LeagueTableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
